@@ -84,18 +84,24 @@ public class DenialFilter implements Filter {
    
     if(IP_RANGE!=null){
     if (IP_RANGE.equals(ip) || block_range.equals(client)) {
-
+    	
       httpResp.sendError(HttpServletResponse.SC_FORBIDDEN,"You are in our DataBase as an attacker and blocked as a result.To be removed please mail your reason to ayushman999@gmail.com ");
 
     } else {
-
       chain.doFilter(request, response);
     }
     }
     else
     {
+    	if (block_range.equals(client)) {
+        	
+    	      httpResp.sendError(HttpServletResponse.SC_FORBIDDEN,"You are in our DataBase as an attacker and blocked as a result.To be removed please mail your reason to ayushman999@gmail.com ");
+
+    	    }
+    	else{
     	chain.doFilter(request, response);
     }
+  }
   }// doFilter
 
   public void destroy() {
