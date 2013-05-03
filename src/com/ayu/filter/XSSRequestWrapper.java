@@ -1,5 +1,6 @@
 package com.ayu.filter;
 
+import java.util.Date;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -74,7 +75,6 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String getParameter(String parameter) {
         String value = super.getParameter(parameter);
- 
         return stripXSS(value);
     }
  
@@ -85,9 +85,12 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
     }
  
     private String stripXSS(String value) {
+    	String check;
+    	String str =super.getRemoteAddr();
         if (value != null) {
             // NOTE: It's highly recommended to use the ESAPI library to
             // avoid encoded attacks.
+        	check=value;
             try {
 				value = ESAPI.encoder().canonicalize(value);
 			} catch (EncodingException e) {
@@ -97,12 +100,26 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
  
             // Avoid null characters
             value = value.replaceAll("\0", "");
- 
             // Remove all sections that match a pattern
             for (Pattern scriptPattern : patterns){
                 value = scriptPattern.matcher(value).replaceAll("");
             }
+            if(value.equals(check))
+			{
+				//No Need to Do Anything
+			}
+			else
+			{	if(value.equals("W/396-1367338015000"))
+			{
+				//System.out.println("hellaluya");
+			}
+			else
+			{	RegularService.registerUser(str,new Date().toString(),"Injection Attacks","test1");
+				//System.out.println("Changed3");
+				//System.out.println("value is->"+value+" "+"check is->"+check);
+			}
         }
+      }
         return value;
     }
 }

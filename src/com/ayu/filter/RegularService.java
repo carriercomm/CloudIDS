@@ -19,9 +19,9 @@ public class RegularService {
 //private MailUtility mailUtility ;
 
 @Async
-public void registerUser(String ip,String date){
+public static void registerUser(String ip,String date,String type,String document){
 
-	System.out.println(" Attack from  "+ip +" captured at"+ date);
+	System.out.println(" Attack from  "+ip +" captured at"+ date+"type of attack is"+" "+type);
 	System.out.println(" Database Insertion ");
 
 
@@ -44,11 +44,11 @@ public void registerUser(String ip,String date){
 	  //                                    new ServerAddress("localhost", 27018),
 	    //                                  new ServerAddress("localhost", 27019)));
 
-	DB db = mongoClient.getDB( "test" );
+	DB db = mongoClient.getDB(document);
 	DBCollection coll;
-	coll = db.getCollection("test");
+	coll = db.getCollection(document);
 	BasicDBObject doc = new BasicDBObject("Ip-Address", ip).
-	        append("Date", date);
+	        append("Date", date).append("Attack-Type", type);
 
 	//System.out.println("Data Display");
 	coll.insert(doc);
