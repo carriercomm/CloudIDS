@@ -114,7 +114,10 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 				//System.out.println("hellaluya");
 			}
 			else
-			{	RegularService.registerUser(str,new Date().toString(),"Injection Attacks","test1");
+			{	
+				Object o =super.getServletContext().getAttribute("regService");
+				RegularService r = (RegularService) o;
+				r.registerUser(str,new Date().toString(),"Injection Attacks","test1");
 				//System.out.println("Changed3");
 				//System.out.println("value is->"+value+" "+"check is->"+check);
 			}

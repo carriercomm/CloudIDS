@@ -19,7 +19,7 @@ public class RegularService {
 //private MailUtility mailUtility ;
 
 @Async
-public static void registerUser(String ip,String date,String type,String document){
+public void registerUser(String ip,String date,String type,String document){
 
 	System.out.println(" Attack from  "+ip +" captured at"+ date+"type of attack is"+" "+type);
 	System.out.println(" Database Insertion ");

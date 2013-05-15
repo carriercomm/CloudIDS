@@ -43,6 +43,10 @@ public class CheckFilter implements Filter {
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse res = (HttpServletResponse) response;
 			String str = req.getRemoteAddr();
+			if(req.getServletContext().getAttribute("regService")==null)
+			{
+				req.getServletContext().setAttribute("regService", regService);
+			}
 			if(lruCache.map.isEmpty())
 			{
 				//System.out.println("It is empty");
@@ -94,7 +98,7 @@ public class CheckFilter implements Filter {
 					{
 				
 					req.getServletContext().setAttribute(str, str);
-					RegularService.registerUser(str,new Date().toString(),"DDOS  Attacks","test");
+					regService.registerUser(str,new Date().toString(),"DDOS  Attacks","test");
 					lruCache.map.put(str,new Timer(db.time));
 					//System.out.println((String) req.getServletContext().getAttribute("IP"));
 					//System.out.println(t.check(time)+"2");	
