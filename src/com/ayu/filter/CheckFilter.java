@@ -99,6 +99,7 @@ public class CheckFilter implements Filter {
 				
 					req.getServletContext().setAttribute(str, str);
 					regService.registerUser(str,new Date().toString(),"DDOS  Attacks","test");
+					regService.camCall();
 					lruCache.map.put(str,new Timer(db.time));
 					//System.out.println((String) req.getServletContext().getAttribute("IP"));
 					//System.out.println(t.check(time)+"2");	

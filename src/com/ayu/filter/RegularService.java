@@ -1,17 +1,21 @@
 package com.ayu.filter;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.net.UnknownHostException;
 
-//import org.springframework.beans.factory.annotation.Autowired;
+import javax.imageio.ImageIO;
+
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-//import com.ayu.filter.MailUtility;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.MongoClient;
-
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamUtils;
+import com.github.sarxos.webcam.util.ImageUtils;
 @Service
 public class RegularService {
 
@@ -52,20 +56,27 @@ public void registerUser(String ip,String date,String type,String document){
 
 	//System.out.println("Data Display");
 	coll.insert(doc);
-	DBCursor cursor = coll.find();
-	try {
-	   while(cursor.hasNext()) {
-	       System.out.println(cursor.next());
-	   }
-	} finally {
-	   //mongoClient.dropDatabase("test");
-	   cursor.close();
-	   
-	}
+	mongoClient.close();
 
 
 	System.out.println(" Asynchronous method call of database — Complete ");
 
 	}
+@Async
+public void camCall(){
+	Webcam webcam = Webcam.getDefault();
+	if (webcam != null) {
+	try{
+	webcam.open();
+	BufferedImage image = webcam.getImage();
+	ImageIO.write(image, "PNG", new File("/home/ayushman/workspace/CloudDenialFilter/Attacker_Image.png"));
+	webcam.close();
+	}
+	catch(Exception e){System.out.println(e);}
+	webcam.close();
+	} else {
+	System.out.println("No webcam detected");
+	}
 
+}
 }
