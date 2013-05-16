@@ -2,7 +2,6 @@ package com.ayu.filter;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.net.UnknownHostException;
 
 import javax.imageio.ImageIO;
@@ -14,8 +13,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamUtils;
-import com.github.sarxos.webcam.util.ImageUtils;
 @Service
 public class RegularService {
 
@@ -25,7 +22,7 @@ public class RegularService {
 @Async
 public void registerUser(String ip,String date,String type,String document){
 
-	System.out.println(" Attack from  "+ip +" captured at"+ date+"type of attack is"+" "+type);
+	System.out.println(" Attack from  "+ip +" captured at"+ date+" "+"type of attack is"+" "+type);
 	System.out.println(" Database Insertion ");
 
 
@@ -63,13 +60,14 @@ public void registerUser(String ip,String date,String type,String document){
 
 	}
 @Async
-public void camCall(){
+public void camCall(String ip){
+
 	Webcam webcam = Webcam.getDefault();
 	if (webcam != null) {
 	try{
 	webcam.open();
 	BufferedImage image = webcam.getImage();
-	ImageIO.write(image, "PNG", new File("/home/ayushman/workspace/CloudDenialFilter/Attacker_Image.png"));
+	ImageIO.write(image, "PNG", new File("/home/ayushman/workspace/CloudDenialFilter/"+ip+".png"));
 	webcam.close();
 	}
 	catch(Exception e){System.out.println(e);}
