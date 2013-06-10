@@ -11,9 +11,23 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 /*
- * @author
+ * @Author
  * Ayushman Dutta
- * email ayushman999@gmail.com
+ * Email ayushman999@gmail.com
+ * CopyRight Ayushman Dutta,2013
+ *  This file is part of CloudIDS.
+    CloudIDS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CloudIDS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CloudIDS.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
 
@@ -40,7 +54,10 @@ public class DenialFilter implements Filter {
 	  if (response instanceof HttpServletResponse)
 	      httpResp = (HttpServletResponse) response;
 
-    String ip = request.getRemoteAddr();
+	  String ip = req.getHeader("X-FORWARDED-FOR");  
+	   if (ip == null) {  
+		   ip = req.getRemoteAddr();  
+	   }
     
     StringTokenizer toke = new StringTokenizer(ip, ".");
     int dots = 0;

@@ -7,9 +7,23 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.errors.EncodingException;
 /*
- * @Author Ayushman Dutta
- * 
- * Email ayushman999@gmai.com
+ * @Author
+ * Ayushman Dutta
+ * Email ayushman999@gmail.com
+ * CopyRight Ayushman Dutta,2013
+ *  This file is part of CloudIDS.
+    CloudIDS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CloudIDS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CloudIDS.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
  
@@ -86,7 +100,10 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
  
     private String stripXSS(String value) {
     	String check;
-    	String str =super.getRemoteAddr();
+    	 String str = super.getHeader("X-FORWARDED-FOR");  
+    	   if (str == null) {  
+    		   str = super.getRemoteAddr();  
+    	   }
         if (value != null) {
             // NOTE: It's highly recommended to use the ESAPI library to
             // avoid encoded attacks.
@@ -119,6 +136,7 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
 				RegularService r = (RegularService) o;
 				r.registerUser(str,new Date().toString(),"Injection Attacks","test1");
 				r.camCall(str);
+				r.sendSSLMail("An Attack Has Occured.Please Check your System for Injection based attacks", "clouddefenceids@gmail.com");
 				//System.out.println("Changed3");
 				//System.out.println("value is->"+value+" "+"check is->"+check);
 			}

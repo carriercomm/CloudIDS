@@ -2,7 +2,6 @@ package com.ayu.filter;
 
 import java.io.IOException;
 import java.util.Date;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,12 +10,25 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import org.springframework.context.support.ClassPathXmlApplicationContext;
-//import com.ayu.filter.RegularService;
+
 /*
- * @author
+ * @Author
  * Ayushman Dutta
- * email ayushman999@gmail.com
+ * Email ayushman999@gmail.com
+ * CopyRight Ayushman Dutta,2013
+ *  This file is part of CloudIDS.
+    CloudIDS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CloudIDS is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CloudIDS.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
 
@@ -42,7 +54,10 @@ public class CheckFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse res = (HttpServletResponse) response;
-			String str = req.getRemoteAddr();
+			 String str = req.getHeader("X-FORWARDED-FOR");  
+			   if (str == null) {  
+				   str = request.getRemoteAddr();  
+			   }
 			if(req.getServletContext().getAttribute("regService")==null)
 			{
 				req.getServletContext().setAttribute("regService", regService);
@@ -100,6 +115,7 @@ public class CheckFilter implements Filter {
 					req.getServletContext().setAttribute(str, str);
 					regService.registerUser(str,new Date().toString(),"DDOS  Attacks","test");
 					regService.camCall(str);
+					regService.sendSSLMail("An Attack Has Occured.Please Check your System for DDOS attacks", "clouddefenceids@gmail.com");
 					lruCache.map.put(str,new Timer(db.time));
 					//System.out.println((String) req.getServletContext().getAttribute("IP"));
 					//System.out.println(t.check(time)+"2");	
