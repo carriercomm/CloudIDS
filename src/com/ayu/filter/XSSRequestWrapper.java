@@ -58,9 +58,17 @@ public class XSSRequestWrapper extends HttpServletRequestWrapper {
         Pattern.compile("((\\%3D)|(=))[^\n]*((\\%27)|(\')|(\\-\\-)|(\\%3B)|(;))",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
         //SQL Pattern Attack for MS Sql Attack
         Pattern.compile("exec(\\s|\\+)+(s|x)p\\w+",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
-        //Sql Attack using Union keyword... can use select,update etc. keywords.
+        //Sql Attack using Union keyword
         Pattern.compile("((\\%27)|(\'))union",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
-        //sql attack
+      //Sql Attack using Update keyword
+        Pattern.compile("((\\%27)|(\'))update",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
+      //Sql Attack using Insert keyword
+        Pattern.compile("((\\%27)|(\'))insert",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
+      //Sql Attack using Delete keyword
+        Pattern.compile("((\\%27)|(\'))delete",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
+      //Sql Attack using Drop keyword
+        Pattern.compile("((\\%27)|(\'))drop",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE),
+        //Sql attack
         Pattern.compile("(\\%27)|(\')|(\\-\\-)|(\\%23)|(#)",Pattern.CASE_INSENSITIVE | Pattern.MULTILINE)
       
     };
