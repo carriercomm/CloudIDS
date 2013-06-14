@@ -110,7 +110,7 @@ public void camCall(String ip){
 public void sendSSLMail(String text,String toMail) {
 
 	final String username = "clouddefenceids";
-	final String password = "Cloud@123";
+	final String password = "";
 
 	Properties props = new Properties();
 	props.put("mail.smtp.auth", "true");
